@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white text-center">
+                <h4 class="mb-0">Access Photo Vault</h4>
+            </div>
+            <div class="card-body">
+                {% if form.errors %}
+                    <div class="alert alert-danger p-2 small" role="alert">
+                        Your username and password didn't match. Please try again.
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label small fw-bold">Username</label>
+                        <input type="text" name="username" id="id_username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label small fw-bold">Password</label>
+                        <input type="password" name="password" id="id_password" class="form-control" required>
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-dark">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

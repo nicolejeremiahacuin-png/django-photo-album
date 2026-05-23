@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold" style="color: #1e293b;">My Collections</h2>
+</div>
+
+<div class="row">
+    {% for album in albums %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column p-4">
+                    <h5 class="card-title fw-bold" style="color: #1e3a8a;">{{ album.title }}</h5>
+                    <p class="card-text text-muted flex-grow-1 fs-6">{{ album.description|truncatewords:15 }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{% url 'album-detail' album.pk %}" class="btn btn-aesthetic-primary btn-sm px-3">Open Vault</a>
+                        {% if album.is_private %}
+                            <span class="badge px-2.5 py-1.5 rounded-pill" style="background-color: #64748b; color: white;">Private</span>
+                        {% else %}
+                            <span class="badge px-2.5 py-1.5 rounded-pill" style="background-color: #dbeafe; color: #1e40af;">Public</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-muted small px-4 pb-3">
+                    Curated by: {{ album.owner.username }}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert text-center py-5 border-0 shadow-sm" style="background-color: #e0f2fe; color: #0369a1;" role="alert">
+                <p class="mb-2 fw-medium">Your creative safe is empty.</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'album-create' %}" class="alert-link text-decoration-underline">Build your first album vault!</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
